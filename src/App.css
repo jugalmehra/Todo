@@ -1,38 +1,49 @@
 .App {
   text-align: center;
+  margin: 0 auto;
+  padding: 32px;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.HeadingArea{
+  margin: 16px;
+  padding: 16px;
+  box-sizing:border-box;
+  border-radius:5px;
+  box-shadow: 0 4px 10px #ccc;
+  background-color: grey;
+    
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+h1{
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.todo-input {
+  font-size: 24px;
+  border: 2px solid grey;
+  border-radius: 20px;
+  width: 100%;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.todo {
+  margin: 32px 0px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+.done {
+  text-decoration: line-through;
+}
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background: #d9d9d9;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fff;
+}
+.delete {
+  margin-left: auto;
+  font-size: 16px;
+  cursor: pointer;
 }

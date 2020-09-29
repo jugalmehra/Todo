@@ -1,24 +1,66 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{ useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [currentTodo, setCurrentTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  function createNewTodo(currentTodo) {
+    let todosArray = [...todos];
+    todosArray.push({
+      todo: currentTodo,
+      isCompleted: false
+    });
+    setTodos(todosArray);
+  }
+
+  function completeTodo(index) {
+    let todosArray = [...todos];
+    todosArray[index].isCompleted = !todosArray[index].isCompleted;
+    setTodos(todosArray);
+  }
+
+  function deleteTodo(index) {
+    let todosArray = [...todos];
+    todosArray.splice(index, 1);
+    setTodos(todosArray);
+  }
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="HeadingArea" >
+      <h1>TODO LIST</h1>
+      </div>
+        <input
+        className="todo-input"
+        value={currentTodo}
+        onChange={e => {
+          setCurrentTodo(e.target.value);
+        }}
+        onKeyPress={e => {
+          if (e.key === "Enter") {
+            createNewTodo(currentTodo);
+            setCurrentTodo("");
+          }
+        }}
+        placeholder="Enter a Task"
+      />
+      
+      {todos.map((todo, index) => (
+        <div key={todo} className="todo">
+          <div className="checkbox" onClick={() => completeTodo(index)}>
+            {todo.isCompleted && <span>&#x2714;</span>}
+          </div>
+          <div className={todo.isCompleted ? "done" : ""}>{todo.todo}</div>
+          <div className="delete" onClick={() => deleteTodo(index)}>
+            &#128465;
+          </div>
+        </div>
+      ))}
+      {todos.length > 0 && `${todos.length} items`}
+      
     </div>
   );
 }
