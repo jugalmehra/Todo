@@ -1,24 +1,30 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
+import Createtodo from './Createtodo';
 import './App.css';
 
 function App() {
 
-  const [currentTodo, setCurrentTodo] = useState("");
+ 
   const [todos, setTodos] = useState([]);
+  const [tasksRemaining, setTasksRemaining] = useState(0);
 
   function createNewTodo(currentTodo) {
-    let todosArray = [...todos];
+    if(currentTodo!==''){
+      let todosArray = [...todos];
     todosArray.push({
       todo: currentTodo,
       isCompleted: false
     });
     setTodos(todosArray);
+    }
+    
   }
 
   function completeTodo(index) {
     let todosArray = [...todos];
     todosArray[index].isCompleted = !todosArray[index].isCompleted;
     setTodos(todosArray);
+    console.log(todosArray)
   }
 
   function deleteTodo(index) {
@@ -27,29 +33,30 @@ function App() {
     setTodos(todosArray);
   }
 
+  function markAll(){
+   for(let i=0;i<todos.length;i++){
+    let todosArray = [...todos];
+    if(!todosArray[i].isCompleted ){
+      todosArray[i].isCompleted = !todosArray[i].isCompleted;
+    }
+    
+    setTodos(todosArray);
+   }
+
+  
+  }
+
+  useEffect(() => {
+    setTasksRemaining(todos.filter(item => !item.isCompleted).length)
+  },[todos]);
+
   
   return (
     <div className="App">
-      <div className="HeadingArea" >
-      <h1>TODO LIST</h1>
-      </div>
-        <input
-        className="todo-input"
-        value={currentTodo}
-        onChange={e => {
-          setCurrentTodo(e.target.value);
-        }}
-        onKeyPress={e => {
-          if (e.key === "Enter") {
-            createNewTodo(currentTodo);
-            setCurrentTodo("");
-          }
-        }}
-        placeholder="Enter a Task"
-      />
+      <Createtodo createNewTodo={createNewTodo} />
       
       {todos.map((todo, index) => (
-        <div key={todo} className="todo">
+        <div key={index} className="todo">
           <div className="checkbox" onClick={() => completeTodo(index)}>
             {todo.isCompleted && <span>&#x2714;</span>}
           </div>
@@ -59,8 +66,8 @@ function App() {
           </div>
         </div>
       ))}
-      {todos.length > 0 && `${todos.length} items`}
-      
+      {todos.length > 0 && `Total Tasks: ${todos.length} |`}  {tasksRemaining > 0 && `Task left: ${tasksRemaining} `}
+      <button onClick={markAll}>MARKALL</button>
     </div>
   );
 }
